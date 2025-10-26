@@ -1,6 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Menu, X, Home, DoorOpen, Briefcase, Trophy, Phone, User } from "lucide-react";
+import { Menu, X, Home, DoorOpen, Briefcase, Trophy, Phone, User, Bot, Settings } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 
@@ -13,6 +13,7 @@ const Navbar = () => {
     { name: "الغرف", path: "/rooms", icon: DoorOpen },
     { name: "الخدمات", path: "/services", icon: Briefcase },
     { name: "المباريات", path: "/matches", icon: Trophy },
+    { name: "البوت", path: "/bot", icon: Bot },
     { name: "تواصل معنا", path: "/contact", icon: Phone },
   ];
 
@@ -50,6 +51,15 @@ const Navbar = () => {
                 </Button>
               </Link>
             ))}
+            <Link to="/admin" className="animate-fade-in">
+              <Button
+                variant={isActive("/admin") ? "default" : "outline"}
+                className="gap-2 transition-smooth hover-lift"
+              >
+                <Settings className="h-4 w-4" />
+                لوحة التحكم
+              </Button>
+            </Link>
             <ThemeToggle />
           </div>
 
@@ -94,6 +104,15 @@ const Navbar = () => {
                   </Button>
                 </Link>
               ))}
+              <Link to="/admin" onClick={() => setIsOpen(false)}>
+                <Button
+                  variant={isActive("/admin") ? "default" : "outline"}
+                  className="w-full justify-start gap-2"
+                >
+                  <Settings className="h-4 w-4" />
+                  لوحة التحكم
+                </Button>
+              </Link>
               <Link to="/auth" onClick={() => setIsOpen(false)}>
                 <Button className="w-full gap-2">
                   <User className="h-4 w-4" />

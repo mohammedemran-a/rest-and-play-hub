@@ -10,6 +10,7 @@ import Services from "./pages/Services";
 import Matches from "./pages/Matches";
 import Contact from "./pages/Contact";
 import Auth from "./pages/Auth";
+import Bot from "./pages/Bot";
 import NotFound from "./pages/NotFound";
 import Dashboard from "./pages/admin/Dashboard";
 import AdminRooms from "./pages/admin/AdminRooms";
@@ -35,6 +36,7 @@ const App = () => (
             <Route path="/rooms" element={<Rooms />} />
             <Route path="/services" element={<Services />} />
             <Route path="/matches" element={<Matches />} />
+            <Route path="/bot" element={<Bot />} />
             <Route path="/contact" element={<Contact />} />
             <Route path="/auth" element={<Auth />} />
             
