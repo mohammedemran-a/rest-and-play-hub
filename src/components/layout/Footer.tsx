@@ -12,7 +12,7 @@ const Footer = () => {
               <div className="w-10 h-10 rounded-full bg-gradient-to-br from-primary to-accent flex items-center justify-center">
                 <span className="text-primary-foreground font-bold text-xl">ا</span>
               </div>
-              <h3 className="text-xl font-bold">الاستراحة الذهبية</h3>
+              <h3 className="text-xl font-bold">نظام استراحة بي إن إيدريم</h3>
             </div>
             <p className="text-muted-foreground">
               وجهتك المثالية للراحة والاستجمام. نوفر أفضل الخدمات والمرافق لضمان تجربة لا تُنسى.
@@ -92,7 +92,7 @@ const Footer = () => {
         </div>
 
         <div className="mt-8 pt-8 border-t border-border text-center text-muted-foreground">
-          <p>© 2024 الاستراحة الذهبية. جميع الحقوق محفوظة.</p>
+          <p>© 2024 نظام استراحة بي إن إيدريم. جميع الحقوق محفوظة.</p>
         </div>
       </div>
     </footer>

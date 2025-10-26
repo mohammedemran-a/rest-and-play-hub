@@ -28,7 +28,7 @@ const Navbar = () => {
               <span className="text-primary-foreground font-bold text-xl">ا</span>
             </div>
             <span className="text-xl font-bold bg-gradient-to-l from-primary to-accent bg-clip-text text-transparent">
-              الاستراحة الذهبية
+              نظام استراحة بي إن إيدريم
             </span>
           </Link>
 
