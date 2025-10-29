@@ -3,6 +3,7 @@ import { Button } from "@/components/ui/button";
 import { Menu, X, Home, DoorOpen, Briefcase, Trophy, Phone, User, Bot, Settings } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
+import { CartSheet } from "@/components/cart/CartSheet";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -60,6 +61,7 @@ const Navbar = () => {
                 لوحة التحكم
               </Button>
             </Link>
+            <CartSheet />
             <ThemeToggle />
           </div>
 
@@ -75,6 +77,7 @@ const Navbar = () => {
 
           {/* Mobile Menu Button & Theme Toggle */}
           <div className="md:hidden flex items-center gap-2">
+            <CartSheet />
             <ThemeToggle />
             <button
               onClick={() => setIsOpen(!isOpen)}

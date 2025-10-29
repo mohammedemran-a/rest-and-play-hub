@@ -3,7 +3,10 @@ import Footer from "@/components/layout/Footer";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { ShoppingCart, Coffee, Wifi, CreditCard } from "lucide-react";
+import { Input } from "@/components/ui/input";
+import { ShoppingCart, Coffee, Wifi, Plus, Minus } from "lucide-react";
+import { useCart } from "@/contexts/CartContext";
+import { useState } from "react";
 
 const groceryItems = [
   { id: 1, name: "ماء معدني", price: 5, image: "https://images.unsplash.com/photo-1548839140-29a749e1cf4d?w=400&q=80" },
@@ -38,23 +41,81 @@ const networkCards = [
   { id: 3, name: "كرت مفتوح 24 ساعة", price: 40, image: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=400&q=80" },
 ];
 
-const ServiceCard = ({ item }: { item: any }) => (
-  <Card className="overflow-hidden hover-lift card-gradient border-2">
-    <div className="h-48 overflow-hidden">
-      <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
-    </div>
-    <CardHeader>
-      <CardTitle>{item.name}</CardTitle>
-      {item.description && (
-        <CardDescription className="text-sm mt-1">{item.description}</CardDescription>
-      )}
-      <CardDescription className="text-2xl font-bold text-primary mt-2">{item.price} ريال</CardDescription>
-    </CardHeader>
-    <CardFooter>
-      <Button className="w-full shadow-elegant">اطلب الآن</Button>
-    </CardFooter>
-  </Card>
-);
+const ServiceCard = ({ item, category }: { item: any; category: string }) => {
+  const [quantity, setQuantity] = useState(1);
+  const { addItem } = useCart();
+
+  const handleAddToCart = () => {
+    addItem(
+      {
+        id: item.id,
+        name: item.name,
+        price: item.price,
+        image: item.image,
+        category,
+      },
+      quantity
+    );
+    setQuantity(1);
+  };
+
+  const decreaseQuantity = () => {
+    if (quantity > 1) setQuantity(quantity - 1);
+  };
+
+  const increaseQuantity = () => {
+    setQuantity(quantity + 1);
+  };
+
+  return (
+    <Card className="overflow-hidden hover-lift card-gradient border-2">
+      <div className="h-48 overflow-hidden">
+        <img src={item.image} alt={item.name} className="w-full h-full object-cover transition-transform duration-500 hover:scale-110" />
+      </div>
+      <CardHeader>
+        <CardTitle>{item.name}</CardTitle>
+        {item.description && (
+          <CardDescription className="text-sm mt-1">{item.description}</CardDescription>
+        )}
+        <CardDescription className="text-2xl font-bold text-primary mt-2">{item.price} ريال</CardDescription>
+      </CardHeader>
+      <CardFooter className="flex-col gap-3">
+        <div className="flex items-center justify-center gap-2 w-full">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={decreaseQuantity}
+            className="h-9 w-9"
+          >
+            <Minus className="h-4 w-4" />
+          </Button>
+          <Input
+            type="number"
+            value={quantity}
+            onChange={(e) => {
+              const val = parseInt(e.target.value);
+              if (val > 0) setQuantity(val);
+            }}
+            className="w-16 text-center"
+            min="1"
+          />
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={increaseQuantity}
+            className="h-9 w-9"
+          >
+            <Plus className="h-4 w-4" />
+          </Button>
+        </div>
+        <Button onClick={handleAddToCart} className="w-full shadow-elegant gap-2">
+          <ShoppingCart className="h-4 w-4" />
+          إضافة إلى السلة
+        </Button>
+      </CardFooter>
+    </Card>
+  );
+};
 
 const Services = () => {
   return (
@@ -102,7 +163,7 @@ const Services = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {groceryItems.map((item, index) => (
                     <div key={item.id} className="animate-scale-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                      <ServiceCard item={item} />
+                      <ServiceCard item={item} category="البقالة" />
                     </div>
                   ))}
                 </div>
@@ -119,7 +180,7 @@ const Services = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {coffeeItems.map((item, index) => (
                     <div key={item.id} className="animate-scale-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                      <ServiceCard item={item} />
+                      <ServiceCard item={item} category="القهوة" />
                     </div>
                   ))}
                 </div>
@@ -129,7 +190,7 @@ const Services = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {qatItems.map((item, index) => (
                     <div key={item.id} className="animate-scale-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                      <ServiceCard item={item} />
+                      <ServiceCard item={item} category="القات" />
                     </div>
                   ))}
                 </div>
@@ -139,7 +200,7 @@ const Services = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {shishaItems.map((item, index) => (
                     <div key={item.id} className="animate-scale-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                      <ServiceCard item={item} />
+                      <ServiceCard item={item} category="الشيشة" />
                     </div>
                   ))}
                 </div>
@@ -149,7 +210,7 @@ const Services = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-6">
                   {networkCards.map((item, index) => (
                     <div key={item.id} className="animate-scale-in" style={{ animationDelay: `${index * 0.05}s` }}>
-                      <ServiceCard item={item} />
+                      <ServiceCard item={item} category="كروت الشبكة" />
                     </div>
                   ))}
                 </div>
