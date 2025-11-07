@@ -116,11 +116,11 @@ const AdminRooms = () => {
             <Label htmlFor="image">رابط الصورة</Label>
             <Input id="image" placeholder="https://..." />
           </div>
-          <div className="flex gap-2 justify-end">
+          <div className="flex gap-2 justify-start">
+            <Button type="submit">حفظ</Button>
             <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
               إلغاء
             </Button>
-            <Button type="submit">حفظ</Button>
           </div>
         </form>
       </DialogContent>
@@ -136,7 +136,7 @@ const AdminRooms = () => {
           <TableHead>السعر</TableHead>
           <TableHead>السعة</TableHead>
           <TableHead>الحالة</TableHead>
-          <TableHead className="text-right">العمليات</TableHead>
+          <TableHead>العمليات</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -157,8 +157,8 @@ const AdminRooms = () => {
                 {room.status}
               </Badge>
             </TableCell>
-            <TableCell className="text-right">
-              <div className="flex gap-2 justify-end">
+            <TableCell>
+              <div className="flex gap-2 justify-start">
                 <Button size="sm" variant="ghost" className="hover:bg-primary/10">
                   <Pencil className="w-4 h-4" />
                 </Button>
