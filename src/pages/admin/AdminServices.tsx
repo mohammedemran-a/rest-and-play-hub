@@ -53,7 +53,7 @@ const AdminServices = () => {
           <TableHead>السعر</TableHead>
           <TableHead>الكمية</TableHead>
           <TableHead>الفئة</TableHead>
-          <TableHead>العمليات</TableHead>
+          <TableHead className="text-right">العمليات</TableHead>
         </TableRow>
       </TableHeader>
       <TableBody>
@@ -63,8 +63,8 @@ const AdminServices = () => {
             <TableCell>{item.price} ريال</TableCell>
             <TableCell>{item.stock}</TableCell>
             <TableCell>{item.category}</TableCell>
-            <TableCell>
-              <div className="flex gap-2 justify-start">
+            <TableCell className="text-right">
+              <div className="flex gap-2 justify-end">
                 <Button size="sm" variant="ghost" className="hover:bg-primary/10">
                   <Pencil className="w-4 h-4" />
                 </Button>
@@ -122,11 +122,11 @@ const AdminServices = () => {
                   <Label htmlFor="productImage">رابط الصورة</Label>
                   <Input id="productImage" placeholder="https://..." />
                 </div>
-                <div className="flex gap-2 justify-start">
-                  <Button type="submit">حفظ</Button>
+                <div className="flex gap-2 justify-end">
                   <Button type="button" variant="outline" onClick={() => setIsDialogOpen(false)}>
                     إلغاء
                   </Button>
+                  <Button type="submit">حفظ</Button>
                 </div>
               </form>
             </DialogContent>
