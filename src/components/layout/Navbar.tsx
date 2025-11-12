@@ -1,32 +1,14 @@
 import { Link, useLocation } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { Badge } from "@/components/ui/badge";
-import { Menu, X, Home, DoorOpen, Briefcase, Trophy, Phone, User, Bot, Settings, Bell } from "lucide-react";
+import { Menu, X, Home, DoorOpen, Briefcase, Trophy, Phone, User, Bot, Settings } from "lucide-react";
 import { useState } from "react";
 import { ThemeToggle } from "./ThemeToggle";
 import { CartSheet } from "@/components/cart/CartSheet";
-import {
-  Popover,
-  PopoverContent,
-  PopoverTrigger,
-} from "@/components/ui/popover";
-import { ScrollArea } from "@/components/ui/scroll-area";
-import { Separator } from "@/components/ui/separator";
+import { NotificationSheet } from "@/components/notifications/NotificationSheet";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
-  const [notificationsOpen, setNotificationsOpen] = useState(false);
   const location = useLocation();
-
-  // Mock notifications data - replace with real data later
-  const notifications = [
-    { id: 1, title: "حجز جديد", message: "تم حجز الغرفة VIP بنجاح", time: "منذ 5 دقائق", read: false },
-    { id: 2, title: "تأكيد الطلب", message: "تم تأكيد طلب الخدمة الإضافية", time: "منذ ساعة", read: false },
-    { id: 3, title: "مباراة قادمة", message: "مباراة الريال ضد برشلونة غداً", time: "منذ ساعتين", read: true },
-    { id: 4, title: "عرض خاص", message: "خصم 20% على جميع الغرف", time: "منذ يوم", read: true },
-  ];
-
-  const unreadCount = notifications.filter(n => !n.read).length;
 
   const navLinks = [
     { name: "الرئيسية", path: "/", icon: Home },
@@ -89,68 +71,7 @@ const Navbar = () => {
 
           {/* Desktop Right Side - Hidden on mobile */}
           <div className="hidden lg:flex items-center gap-2 animate-fade-in-left shrink-0">
-            <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="relative">
-                  <Bell className="h-5 w-5" />
-                  {unreadCount > 0 && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-1 -right-1 h-5 w-5 flex items-center justify-center p-0 text-xs"
-                    >
-                      {unreadCount}
-                    </Badge>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0" align="end">
-                <div className="flex items-center justify-between p-4 border-b">
-                  <h3 className="font-semibold text-lg">الإشعارات</h3>
-                  {unreadCount > 0 && (
-                    <Badge variant="secondary">{unreadCount} جديد</Badge>
-                  )}
-                </div>
-                <ScrollArea className="h-[400px]">
-                  {notifications.length > 0 ? (
-                    <div className="p-2">
-                      {notifications.map((notification, index) => (
-                        <div key={notification.id}>
-                          <div
-                            className={`p-3 rounded-lg cursor-pointer transition-smooth hover:bg-muted ${
-                              !notification.read ? "bg-primary/5" : ""
-                            }`}
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex-1">
-                                <p className="font-semibold text-sm mb-1">{notification.title}</p>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                  {notification.message}
-                                </p>
-                                <p className="text-xs text-muted-foreground">{notification.time}</p>
-                              </div>
-                              {!notification.read && (
-                                <div className="w-2 h-2 rounded-full bg-primary mt-1 shrink-0" />
-                              )}
-                            </div>
-                          </div>
-                          {index < notifications.length - 1 && <Separator className="my-1" />}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 text-center text-muted-foreground">
-                      <Bell className="h-12 w-12 mx-auto mb-3 opacity-20" />
-                      <p>لا توجد إشعارات</p>
-                    </div>
-                  )}
-                </ScrollArea>
-                <div className="p-3 border-t">
-                  <Button variant="ghost" size="sm" className="w-full">
-                    عرض جميع الإشعارات
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <NotificationSheet />
             <CartSheet />
             <ThemeToggle />
             <Link to="/">
@@ -163,68 +84,7 @@ const Navbar = () => {
 
           {/* Mobile/Tablet Right Side */}
           <div className="flex lg:hidden items-center gap-1.5 sm:gap-2 shrink-0">
-            <Popover open={notificationsOpen} onOpenChange={setNotificationsOpen}>
-              <PopoverTrigger asChild>
-                <Button variant="ghost" size="sm" className="relative p-2">
-                  <Bell className="h-5 w-5" />
-                  {unreadCount > 0 && (
-                    <Badge 
-                      variant="destructive" 
-                      className="absolute -top-1 -right-1 h-4 w-4 flex items-center justify-center p-0 text-[10px]"
-                    >
-                      {unreadCount}
-                    </Badge>
-                  )}
-                </Button>
-              </PopoverTrigger>
-              <PopoverContent className="w-80 p-0" align="end">
-                <div className="flex items-center justify-between p-4 border-b">
-                  <h3 className="font-semibold text-lg">الإشعارات</h3>
-                  {unreadCount > 0 && (
-                    <Badge variant="secondary">{unreadCount} جديد</Badge>
-                  )}
-                </div>
-                <ScrollArea className="h-[400px]">
-                  {notifications.length > 0 ? (
-                    <div className="p-2">
-                      {notifications.map((notification, index) => (
-                        <div key={notification.id}>
-                          <div
-                            className={`p-3 rounded-lg cursor-pointer transition-smooth hover:bg-muted ${
-                              !notification.read ? "bg-primary/5" : ""
-                            }`}
-                          >
-                            <div className="flex items-start justify-between gap-2">
-                              <div className="flex-1">
-                                <p className="font-semibold text-sm mb-1">{notification.title}</p>
-                                <p className="text-sm text-muted-foreground mb-2">
-                                  {notification.message}
-                                </p>
-                                <p className="text-xs text-muted-foreground">{notification.time}</p>
-                              </div>
-                              {!notification.read && (
-                                <div className="w-2 h-2 rounded-full bg-primary mt-1 shrink-0" />
-                              )}
-                            </div>
-                          </div>
-                          {index < notifications.length - 1 && <Separator className="my-1" />}
-                        </div>
-                      ))}
-                    </div>
-                  ) : (
-                    <div className="p-8 text-center text-muted-foreground">
-                      <Bell className="h-12 w-12 mx-auto mb-3 opacity-20" />
-                      <p>لا توجد إشعارات</p>
-                    </div>
-                  )}
-                </ScrollArea>
-                <div className="p-3 border-t">
-                  <Button variant="ghost" size="sm" className="w-full">
-                    عرض جميع الإشعارات
-                  </Button>
-                </div>
-              </PopoverContent>
-            </Popover>
+            <NotificationSheet />
             <CartSheet />
             <ThemeToggle />
             <button
