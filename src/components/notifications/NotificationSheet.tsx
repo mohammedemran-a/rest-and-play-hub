@@ -39,7 +39,7 @@ export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: No
         </Button>
         </SheetTrigger>
       )}
-      <SheetContent side="right" className="w-full sm:w-[400px]">
+      <SheetContent side="left" className="w-full sm:w-[400px]">
         <SheetHeader>
           <SheetTitle className="flex items-center justify-between">
             <span>الإشعارات</span>
