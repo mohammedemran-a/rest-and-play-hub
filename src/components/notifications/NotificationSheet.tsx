@@ -3,7 +3,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Bell } from "lucide-react";
+import { Bell, Check, X } from "lucide-react";
+import { useNotifications } from "@/contexts/NotificationContext";
 
 interface NotificationSheetProps {
   open?: boolean;
@@ -12,15 +13,7 @@ interface NotificationSheetProps {
 }
 
 export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: NotificationSheetProps) => {
-  // Mock notifications data - replace with real data later
-  const notifications = [
-    { id: 1, title: "حجز جديد", message: "تم حجز الغرفة VIP بنجاح", time: "منذ 5 دقائق", read: false },
-    { id: 2, title: "تأكيد الطلب", message: "تم تأكيد طلب الخدمة الإضافية", time: "منذ ساعة", read: false },
-    { id: 3, title: "مباراة قادمة", message: "مباراة الريال ضد برشلونة غداً", time: "منذ ساعتين", read: true },
-    { id: 4, title: "عرض خاص", message: "خصم 20% على جميع الغرف", time: "منذ يوم", read: true },
-  ];
-
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const { notifications, markAsRead, deleteNotification, markAllAsRead, unreadCount } = useNotifications();
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -41,12 +34,24 @@ export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: No
       )}
       <SheetContent side="left" className="w-full sm:w-[400px]">
         <SheetHeader>
-          <SheetTitle className="flex items-center justify-between">
-            <span>الإشعارات</span>
+          <div className="flex items-center justify-between">
+            <SheetTitle className="flex items-center gap-2">
+              <span>الإشعارات</span>
+              {unreadCount > 0 && (
+                <Badge variant="secondary">{unreadCount} جديد</Badge>
+              )}
+            </SheetTitle>
             {unreadCount > 0 && (
-              <Badge variant="secondary">{unreadCount} جديد</Badge>
+              <Button
+                variant="ghost"
+                size="sm"
+                onClick={markAllAsRead}
+                className="text-xs"
+              >
+                تعليم الكل كمقروء
+              </Button>
             )}
-          </SheetTitle>
+          </div>
         </SheetHeader>
         
         <ScrollArea className="h-[calc(100vh-120px)] mt-6">
@@ -55,7 +60,7 @@ export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: No
               {notifications.map((notification, index) => (
                 <div key={notification.id}>
                   <div
-                    className={`p-4 rounded-lg cursor-pointer transition-smooth hover:bg-muted ${
+                    className={`p-4 rounded-lg transition-smooth hover:bg-muted ${
                       !notification.read ? "bg-primary/5" : ""
                     }`}
                   >
@@ -67,9 +72,31 @@ export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: No
                         </p>
                         <p className="text-xs text-muted-foreground">{notification.time}</p>
                       </div>
-                      {!notification.read && (
-                        <div className="w-2 h-2 rounded-full bg-primary mt-1 shrink-0" />
-                      )}
+                      <div className="flex items-center gap-1 shrink-0">
+                        {!notification.read ? (
+                          <>
+                            <Button
+                              variant="ghost"
+                              size="icon"
+                              className="h-7 w-7"
+                              onClick={() => markAsRead(notification.id)}
+                              title="تعليم كمقروء"
+                            >
+                              <Check className="h-4 w-4" />
+                            </Button>
+                            <div className="w-2 h-2 rounded-full bg-primary" />
+                          </>
+                        ) : null}
+                        <Button
+                          variant="ghost"
+                          size="icon"
+                          className="h-7 w-7 hover:bg-destructive/10 hover:text-destructive"
+                          onClick={() => deleteNotification(notification.id)}
+                          title="حذف الإشعار"
+                        >
+                          <X className="h-4 w-4" />
+                        </Button>
+                      </div>
                     </div>
                   </div>
                   {index < notifications.length - 1 && <Separator className="my-2" />}
