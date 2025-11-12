@@ -5,7 +5,13 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Bell } from "lucide-react";
 
-export const NotificationSheet = () => {
+interface NotificationSheetProps {
+  open?: boolean;
+  onOpenChange?: (open: boolean) => void;
+  showTrigger?: boolean;
+}
+
+export const NotificationSheet = ({ open, onOpenChange, showTrigger = true }: NotificationSheetProps) => {
   // Mock notifications data - replace with real data later
   const notifications = [
     { id: 1, title: "حجز جديد", message: "تم حجز الغرفة VIP بنجاح", time: "منذ 5 دقائق", read: false },
@@ -17,8 +23,9 @@ export const NotificationSheet = () => {
   const unreadCount = notifications.filter(n => !n.read).length;
 
   return (
-    <Sheet>
-      <SheetTrigger asChild>
+    <Sheet open={open} onOpenChange={onOpenChange}>
+      {showTrigger && (
+        <SheetTrigger asChild>
         <Button variant="ghost" size="sm" className="relative p-2">
           <Bell className="h-5 w-5" />
           {unreadCount > 0 && (
@@ -30,7 +37,8 @@ export const NotificationSheet = () => {
             </Badge>
           )}
         </Button>
-      </SheetTrigger>
+        </SheetTrigger>
+      )}
       <SheetContent side="right" className="w-full sm:w-[400px]">
         <SheetHeader>
           <SheetTitle className="flex items-center justify-between">
