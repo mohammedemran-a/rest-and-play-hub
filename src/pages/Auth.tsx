@@ -1,4 +1,3 @@
-import Navbar from "@/components/layout/Navbar";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -24,8 +23,7 @@ const Auth = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-b from-primary/5 to-background">
-      <Navbar />
-      <main className="pt-24 pb-12 px-4">
+      <main className="pt-12 pb-12 px-4">
         <div className="container mx-auto max-w-md">
           <Card className="card-gradient border-2 shadow-elegant animate-scale-in">
             <CardHeader className="text-center">
